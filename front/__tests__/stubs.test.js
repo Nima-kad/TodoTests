@@ -14,32 +14,33 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
 
   // Test pour getAllTodos
   test('getAllTodos retourne les données stubées', async () => {
-    // Arrangement de fetch pour retourner des données stubées
-    const fauxTodos = [{ 
-        id: 1, 
-        text: 'stub todo', 
-        done: false 
-    }];
-
+    // Arrange
+    const fauxTodos = [{ id: 1, text: 'stub todo', done: false }];
     fetch.mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue(fauxTodos)
     });
 
+    // Act
     const todos = await getAllTodos();
+
+    // Assert
     expect(todos).toEqual(fauxTodos);
     expect(fetch).toHaveBeenCalledWith('http://localhost:5000/api/todos');
   });
 
-    // Tests pour createTodo
+  // Test pour createTodo
   test('createTodo envoie les bonnes données', async () => {
+    // Arrange
     const text = 'nouvelle tâche';
     const created = { id: 2, text, done: false };
-
     fetch.mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue(created)
     });
 
+    // Act
     const result = await createTodo(text);
+
+    // Assert
     expect(result).toEqual(created);
     expect(fetch).toHaveBeenCalledWith(
       'http://localhost:5000/api/todos',
@@ -51,17 +52,20 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
     );
   });
 
-// Test d'erreur pour createTodo
+  // Test d'erreur pour createTodo
   test('createTodo gère une erreur de fetch (ex: 500)', async () => {
-    // Arrange : simulate a server error
+    // Arrange
     fetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
       json: jest.fn().mockResolvedValue({ message: 'Erreur serveur' })
     });
 
-    // Act + Assert : on s’attend à ce que l’appel échoue
-    await expect(createTodo('Erreur')).resolves.toEqual({ message: 'Erreur serveur' });
+    // Act
+    const result = await createTodo('Erreur');
+
+    // Assert
+    expect(result).toEqual({ message: 'Erreur serveur' });
     expect(fetch).toHaveBeenCalledWith(
       'http://localhost:5000/api/todos',
       expect.objectContaining({
@@ -72,17 +76,19 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
     );
   });
 
-
-// Tests pour updateTodo
+  // Test pour updateTodo
   test('updateTodo envoie les modifications', async () => {
+    // Arrange
     const updates = { text: 'modifié', done: true };
     const updated = { id: 1, ...updates };
-
     fetch.mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue(updated)
     });
 
+    // Act
     const result = await updateTodo(1, updates);
+
+    // Assert
     expect(result).toEqual(updated);
     expect(fetch).toHaveBeenCalledWith(
       'http://localhost:5000/api/todos/1',
@@ -94,11 +100,15 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
     );
   });
 
-// Test pour deleteTodo
+  // Test pour deleteTodo
   test('deleteTodo appelle fetch avec DELETE', async () => {
+    // Arrange
     fetch.mockResolvedValueOnce();
 
+    // Act
     await deleteTodo(1);
+
+    // Assert
     expect(fetch).toHaveBeenCalledWith('http://localhost:5000/api/todos/1', {
       method: 'DELETE'
     });
