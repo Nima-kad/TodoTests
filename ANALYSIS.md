@@ -7,23 +7,17 @@
 
 ## Classification des fichiers testables
 
-| Fichier / Composant                  | Type de test recommandé  | Outils utilisables        | Justification                                         |Priorité(1-3)|
-|--------------------------------------|--------------------------|----------------------------------|-------------------------------------------------------------|
-|back/src/controllers/todoController.js|Intégration + Mock        |Jest + Supertest       |Contient toute la logique des opérations TODO + dépendance directe à Mongoose|1|
+| Fichier/Classe                   | Type de test recommandé   | Outils utilisables     | Justification                                                                 | Priorité (1-3) |
+|----------------------------------|----------------------------|------------------------|-------------------------------------------------------------------------------|----------------|
+| controllers/todoController.js    | Intégration + Mock        | Jest + Supertest       | Contient la logique des routes (CRUD), interactions avec la BDD              | 1              |
+| models/Todo.js                   | Unitaire                   | Jest                   | Schéma Mongoose, test des règles de validation                               | 2              |
+| routes/todoRoutes.js             | Intégration                | Jest + Supertest       | Connecte les routes Express à leurs contrôleurs                              | 2              |
+| config/db.js                     | Aucun test direct          | (non applicable)       | Fichier de connexion à MongoDB, couvert indirectement par les tests API      | 3              |
+| app.js                           | Intégration (setup)        | Jest + Supertest       | Point d’entrée de l’app Express, à tester pour démarrer le serveur           | 3              |
+| front/src/components/AddTodoForm.js | Unitaire (UI simple)    | Jest + Testing Library | Peut être testé pour la gestion d'événements et l’affichage                  | 2              |
+| front/src/components/TodoList.js    | Unitaire (UI affichage) | Jest + Testing Library | Gère l’affichage de la liste, testable sans logique complexe                 | 2              |
+| front/src/services/api.js        | Unitaire + Mock           | Jest                   | Contient les appels fetch (API), testable avec mocks réseau                  | 1              |
 
-|back/src/models/Todo.js               |Unitaire                  |Jest                   |Définition du modèle avec règles de validation, testable indépendamment| 2|
-
-|back/src/routes/todoRoutes.js         |Intégration               |Jest + Supertest       |Fichier de routage, à tester avec les endpoints Express | 2 |
-
-|back/src/app.js                       |Intégration(setup serveur)|Jest + Supertest       |Point d’entrée de l’app Express, important pour les tests API globaux| 3  |
-
-|back/src/config/db.js                 |Aucun test direct         | —                     |Configuration de connexion, testée indirectement via les tests d'API /CRUDs| 3 |
-
-|front/src/services/api.js             |Unitaire + Mock           | Jest                  |Contient les appels réseau fetch ou axios, à mocker pour isoler les tests| 1 |
-
-|front/src/components/AddTodoForm.js   |Unitaire                  |Jest+React Testing Library  | Gère la soumission du formulaire, testable avec events/simulation | 2 |
-
-|front/src/components/TodoList.js      |Unitaire (UI)             |Jest + React Testing Library| Affiche la liste, testable avec rendu conditionnel | 2 |
 
 ----------------------
 
