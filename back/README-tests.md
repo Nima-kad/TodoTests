@@ -110,5 +110,5 @@ Depuis le dossier `back/` :
 | ChatGPT               | Structuration des tests, cas complexes, erreurs |
 | Jest Documentation    | Référence sur les fonctions mockées             |
 
-# Merci maintenant on passe au deuxième fichier à tester 
+# Merci maintenant on passe au deuxième fichier à tester api.js 
 
