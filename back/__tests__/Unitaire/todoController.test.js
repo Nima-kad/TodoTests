@@ -1,8 +1,8 @@
-const todoController = require('../src/controllers/todoController');
-const Todo = require('../src/models/Todo');
+const todoController = require('../../src/controllers/todoController');
+const Todo = require('../../src/models/Todo');
 
-// Mock du module Todo
-jest.mock('../src/models/Todo');
+// Mock du modèle Todo
+jest.mock('../../src/models/Todo');
 
 // Créer des objets de simulation pour req et res
 const mockResponse = () => {
@@ -28,8 +28,8 @@ describe('todoController', () => {
 
     // pour simuler le comportement de Todo.find
     const mockSort = jest.fn().mockResolvedValue([
-        { _id: '1', text: 'Todo 1' },
-        { _id: '2', text: 'Todo 2' }
+        { _id: '1', text: 'Todo 1', completed: false, createdAt: new Date() },
+        { _id: '2', text: 'Todo 2', completed: false, createdAt: new Date() }
     ]);
     Todo.find.mockReturnValue({ sort: mockSort });
 
@@ -41,8 +41,8 @@ describe('todoController', () => {
     expect(Todo.find).toHaveBeenCalledTimes(1);
     expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
     expect(res.json).toHaveBeenCalledWith([
-        { _id: '1', text: 'Todo 1' },
-        { _id: '2', text: 'Todo 2' }
+        { _id: '1', text: 'Todo 1', completed: false, createdAt: expect.any(Date) },
+        { _id: '2', text: 'Todo 2', completed: false, createdAt: expect.any(Date) }
     ]);
 });
 
@@ -170,21 +170,21 @@ test('Test 6 : doit supprimer un Todo existant (200)', async () => {
   const req = { params: { id: '3' } };
   const res = mockResponse();
 
-  const mockRemove = jest.fn(); // simulateur de suppression
-
-  // Simuler que Todo.findById retourne un objet avec une méthode .remove()
-  Todo.findById.mockResolvedValue({ 
-    remove: mockRemove
+  // findByIdAndDelete retourne le document supprimé
+  Todo.findByIdAndDelete.mockResolvedValue({ 
+    _id: '3',
+    text: 'Todo supprimé',
+    completed: false
   });
 
   // ACT
   await todoController.deleteTodo(req, res);
 
   // ASSERT
-  expect(Todo.findById).toHaveBeenCalledWith('3');
-  expect(mockRemove).toHaveBeenCalled();
+  expect(Todo.findByIdAndDelete).toHaveBeenCalledWith('3');
   expect(res.json).toHaveBeenCalledWith({ 
-    message: 'Todo removed' });
+    message: 'Todo removed' 
+  });
 });
 
 // Tester la suppression d'un Todo qui n'existe pas
@@ -193,13 +193,13 @@ test('Test 7 : doit retourner 404 si le Todo à supprimer n\'existe pas (404)', 
   const req = { params: { id: 'nonexistent' } };
   const res = mockResponse();
 
-  Todo.findById.mockResolvedValue(null);
+  Todo.findByIdAndDelete.mockResolvedValue(null);
 
   // ACT
   await todoController.deleteTodo(req, res);
 
   // ASSERT
-  expect(Todo.findById).toHaveBeenCalledWith('nonexistent');
+  expect(Todo.findByIdAndDelete).toHaveBeenCalledWith('nonexistent');
   expect(res.status).toHaveBeenCalledWith(404);
   expect(res.json).toHaveBeenCalledWith({ message: 'Todo not found' });
 });

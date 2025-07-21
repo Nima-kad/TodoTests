@@ -39,9 +39,8 @@ exports.updateTodo = async (req, res) => {
 
 exports.deleteTodo = async (req, res) => {
   try {
-    const todo = await Todo.findById(req.params.id);
-    if (todo) {
-      await todo.remove();
+    const result = await Todo.findByIdAndDelete(req.params.id);
+    if (result) {
       res.json({ message: 'Todo removed' });
     } else {
       res.status(404).json({ message: 'Todo not found' });
@@ -50,3 +49,4 @@ exports.deleteTodo = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+

@@ -14,7 +14,7 @@ describe('MOCKS - Tests unitaires avec espionnage de fetch', () => {
   });
 
   // Test 1 – getAllTodos (succès)
-  test('getAllTodos doit appeler fetch avec la bonne URL', async () => {
+  test('Test 1: getAllTodos doit appeler fetch avec la bonne URL', async () => {
     // Arrange
     fetch.mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue([])
@@ -29,7 +29,7 @@ describe('MOCKS - Tests unitaires avec espionnage de fetch', () => {
   });
 
   // Test 2 – createTodo (succès)
-  test('createTodo doit envoyer une requête POST avec le bon body', async () => {
+  test('Test 2: createTodo doit envoyer une requête POST avec le bon body', async () => {
     // Arrange
     const text = 'Tâche mockée';
     fetch.mockResolvedValueOnce({
@@ -51,7 +51,7 @@ describe('MOCKS - Tests unitaires avec espionnage de fetch', () => {
   });
 
   // Test 3 – updateTodo (succès)
-  test('updateTodo doit envoyer une requête PUT avec les bonnes données', async () => {
+  test('Test 3: updateTodo doit envoyer une requête PUT avec les bonnes données', async () => {
     // Arrange
     const updates = { done: true };
     const id = 3;
@@ -74,7 +74,7 @@ describe('MOCKS - Tests unitaires avec espionnage de fetch', () => {
   });
 
   // Test 4 – deleteTodo (succès)
-  test('deleteTodo doit envoyer une requête DELETE avec le bon id', async () => {
+  test('Test 4: deleteTodo doit envoyer une requête DELETE avec le bon id', async () => {
     // Arrange
     const id = 4;
     fetch.mockResolvedValueOnce({ json: jest.fn() });
@@ -89,7 +89,7 @@ describe('MOCKS - Tests unitaires avec espionnage de fetch', () => {
   });
 
   // Test 5 – getAllTodos (erreur)
-  test('getAllTodos doit gérer les erreurs (ex: fetch rejette)', async () => {
+  test('Test 5: getAllTodos doit gérer les erreurs (ex: fetch rejette)', async () => {
     // Arrange
     fetch.mockRejectedValueOnce(new Error('Erreur réseau'));
 

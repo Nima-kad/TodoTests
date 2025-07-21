@@ -13,7 +13,7 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
   });
 
   // Test pour getAllTodos
-  test('getAllTodos retourne les données stubées', async () => {
+  test('Test 1: getAllTodos retourne les données stubées', async () => {
     // Arrange
     const fauxTodos = [{ id: 1, text: 'stub todo', done: false }];
     fetch.mockResolvedValueOnce({
@@ -29,7 +29,7 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
   });
 
   // Test pour createTodo
-  test('createTodo envoie les bonnes données', async () => {
+  test('Test 2: createTodo envoie les bonnes données', async () => {
     // Arrange
     const text = 'nouvelle tâche';
     const created = { id: 2, text, done: false };
@@ -53,7 +53,7 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
   });
 
   // Test d'erreur pour createTodo
-  test('createTodo gère une erreur de fetch (ex: 500)', async () => {
+  test('Test 3: createTodo gère une erreur de fetch (ex: 500)', async () => {
     // Arrange
     fetch.mockResolvedValueOnce({
       ok: false,
@@ -77,7 +77,7 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
   });
 
   // Test pour updateTodo
-  test('updateTodo envoie les modifications', async () => {
+  test('Test 4: updateTodo envoie les modifications', async () => {
     // Arrange
     const updates = { text: 'modifié', done: true };
     const updated = { id: 1, ...updates };
@@ -101,7 +101,7 @@ describe('STUBS - Tests basiques de l\'API avec fetch', () => {
   });
 
   // Test pour deleteTodo
-  test('deleteTodo appelle fetch avec DELETE', async () => {
+  test('Test 5: deleteTodo appelle fetch avec DELETE', async () => {
     // Arrange
     fetch.mockResolvedValueOnce();
 
