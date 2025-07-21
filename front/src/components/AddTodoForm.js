@@ -24,4 +24,4 @@ function AddTodoForm({ addTodo }) {
   );
 }
 
-export default AddTodoForm;
+module.exports = AddTodoForm;
